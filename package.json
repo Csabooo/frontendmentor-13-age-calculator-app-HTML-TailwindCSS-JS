@@ -1,0 +1,15 @@
+{
+  "name": "13-age-calculator-app-html-tailwindcss-js",
+  "version": "1.0.0",
+  "description": "![Design preview for the Age calculator app coding challenge](./design/desktop-preview.jpg)",
+  "main": "index.js",
+  "scripts": {
+    "build": "tailwindcss -i input.css -o ./styles/output.css --build",
+    "watch": "tailwindcss -i input.css -o ./styles/output.css --watch"
+  },
+  "author": "Csaba Müller",
+  "license": "ISC",
+  "devDependencies": {
+    "tailwindcss": "^3.3.1"
+  }
+}
