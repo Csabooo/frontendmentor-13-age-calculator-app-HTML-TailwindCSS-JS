@@ -425,6 +425,8 @@ video {
 body {
   --tw-bg-opacity: 1;
   background-color: hsl(0 0% 94% / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: hsl(0 0% 8% / var(--tw-text-opacity));
 }
 
 main {
@@ -702,4 +704,9 @@ span {
 
 .pt-5 {
   padding-top: 1.25rem;
+}
+
+.hover\:bg-off-black:hover {
+  --tw-bg-opacity: 1;
+  background-color: hsl(0 0% 8% / var(--tw-bg-opacity));
 }
