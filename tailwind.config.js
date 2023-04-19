@@ -19,6 +19,7 @@ module.exports = {
         serif: ["Poppins", "san-serif"],
       },
       fontSize: {
+        "small": '0.6rem',
         "32": "2rem",
       },
       letterSpacing: {
