@@ -60,7 +60,6 @@ function calculateAge() {
   const birthMonthValue = parseInt(inputMonth.value);
   const birthYearValue = parseInt(inputYear.value);
 
-
   const currentDate = new Date();
   const currentDay = currentDate.getDate();
   const currentMonth = currentDate.getMonth() + 1;
@@ -84,7 +83,7 @@ function calculateAge() {
     hasError = true;
   }
 
-  if (!birthYearValue) {
+  if (!birthYearValue){
     smallYY.classList.toggle("red");
     labelYear.classList.toggle("red");
     inputYear.classList.toggle("red");
@@ -122,7 +121,6 @@ function calculateAge() {
     hasError = true;
   }
 
-
   if (hasError) {
     return; // If there is an error, do not calculate the age
   }
@@ -135,19 +133,12 @@ function calculateAge() {
 
   // Check the day
   if (birthDayValue < 1 || birthDayValue > lengtMonth[birthMonthValue - 1]) {
-/*     console.log("Hibás nap!");
- */    validDD.classList.toggle("red");
+    validDD.classList.toggle("red");
     labelDay.classList.toggle("red");
     inputDay.classList.toggle("red");
     return;
-
-
-  } 
-  
-/*   else {
-    console.log("Az adott nap érvényes.");
   }
- */
+
   reset();
 
 
@@ -162,7 +153,7 @@ function calculateAge() {
     let ageInMonths = currentMonth - birthMonthValue;
     let ageInYears = currentYear - birthYearValue;
 
-   // If the current month and day are less than the birthday, the calculation is corrected
+    // If the current month and day are less than the birthday, the calculation is corrected
 
     if (currentMonth < birthMonthValue || (currentMonth === birthMonthValue && currentDay < birthDayValue)) {
       ageInYears--;
