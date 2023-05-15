@@ -13,6 +13,13 @@ const smallDD = document.querySelector("#smallDay");
 const smallMM = document.querySelector("#smallMonth");
 const smallYY = document.querySelector("#smallYear");
 
+
+const validDD = document.querySelector("#validDay");
+const validMM = document.querySelector("#validMonth");
+const validYY = document.querySelector("#validYear");
+
+const lengtMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
+
 const labelDay = document.querySelector("#labelDay");
 const labelMonth = document.querySelector("#labelMonth");
 const labelYear = document.querySelector("#labelYear");
@@ -22,6 +29,7 @@ const labelYear = document.querySelector("#labelYear");
 inputs.forEach((x) => {
   x.addEventListener("focus", (e) => {
     e.target.value = "";
+    reset();
   });
 });
 
@@ -32,6 +40,11 @@ function reset() {
   smallDD.classList.remove("red");
   smallMM.classList.remove("red");
   smallYY.classList.remove("red");
+
+  validDD.classList.remove("red");
+  validMM.classList.remove("red");
+  validYY.classList.remove("red");
+
   labelDay.classList.remove("red");
   labelMonth.classList.remove("red");
   labelYear.classList.remove("red");
@@ -47,43 +60,110 @@ function calculateAge() {
   const birthMonthValue = parseInt(inputMonth.value);
   const birthYearValue = parseInt(inputYear.value);
 
+
+  const currentDate = new Date();
+  const currentDay = currentDate.getDate();
+  const currentMonth = currentDate.getMonth() + 1;
+  const currentYear = currentDate.getFullYear();
+
   reset();
+
+  let hasError = false;
 
   if (!birthDayValue) {
     smallDD.classList.toggle("red");
     labelDay.classList.toggle("red");
     inputDay.classList.toggle("red");
-
+    hasError = true;
   }
+
   if (!birthMonthValue) {
     smallMM.classList.toggle("red");
     labelMonth.classList.toggle("red");
     inputMonth.classList.toggle("red");
-
+    hasError = true;
   }
+
   if (!birthYearValue) {
     smallYY.classList.toggle("red");
     labelYear.classList.toggle("red");
     inputYear.classList.toggle("red");
+    hasError = true;
+  }
 
-    
+  if (birthDayValue > 31 || birthDayValue < 1) {
+    if (smallDD.classList.contains("red")) {
+      smallDD.classList.remove("red");
+      labelDay.classList.toggle("red");
+      inputDay.classList.toggle("red");
+    }
+    validDD.classList.toggle("red");
+    labelDay.classList.toggle("red");
+    inputDay.classList.toggle("red");
+    hasError = true;
+  }
+
+  if (birthMonthValue > 12 || birthMonthValue < 1) {
+    if (smallMM.classList.contains("red")) {
+      smallMM.classList.remove("red");
+      labelMonth.classList.toggle("red");
+      inputMonth.classList.toggle("red");
+    }
+    validMM.classList.toggle("red");
+    labelMonth.classList.toggle("red");
+    inputMonth.classList.toggle("red");
+    hasError = true;
+  }
+
+  if (birthYearValue > currentDate.getFullYear()) {
+    validYY.classList.toggle("red");
+    labelYear.classList.toggle("red");
+    inputYear.classList.toggle("red");
+    hasError = true;
+  }
+
+
+  if (hasError) {
+    return; // If there is an error, do not calculate the age
+  }
+
+
+  // Leap year check
+  if ((birthYearValue % 4 === 0 && birthYearValue % 100 !== 0) || birthYearValue % 400 === 0) {
+    lengtMonth[1] = 29; // Length of February is 29 days
+  }
+
+  // Check the day
+  if (birthDayValue < 1 || birthDayValue > lengtMonth[birthMonthValue - 1]) {
+/*     console.log("Hibás nap!");
+ */    validDD.classList.toggle("red");
+    labelDay.classList.toggle("red");
+    inputDay.classList.toggle("red");
+    return;
+
+
   } 
   
-  
+/*   else {
+    console.log("Az adott nap érvényes.");
+  }
+ */
+  reset();
+
+
   if (birthDayValue && birthMonthValue && birthYearValue) {
-    // Az összes születési adat rendelkezésre áll, kiszámítjuk a kort
-    // ...
-  
-    const currentDate = new Date();
-    const currentDay = currentDate.getDate();
-    const currentMonth = currentDate.getMonth() + 1;
-    const currentYear = currentDate.getFullYear();
+    // All birth data are available, age is calculated
+
+    years.innerText = "--";
+    months.innerText = "--";
+    days.innerText = "--";
 
     let ageInDays = currentDay - birthDayValue;
     let ageInMonths = currentMonth - birthMonthValue;
     let ageInYears = currentYear - birthYearValue;
 
-    // Ha az aktuális hónap és nap kevesebb, mint a születésnapé, akkor korrigáljuk a számolást
+   // If the current month and day are less than the birthday, the calculation is corrected
+
     if (currentMonth < birthMonthValue || (currentMonth === birthMonthValue && currentDay < birthDayValue)) {
       ageInYears--;
       if (currentMonth < birthMonthValue) {
@@ -117,8 +197,6 @@ function calculateAge() {
     days.innerText = ageInDays;
   }
 }
-
-
 
 function daysInMonth(year, month) {
   return new Date(year, month + 1, 0).getDate();
